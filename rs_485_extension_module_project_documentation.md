@@ -306,3 +306,37 @@ void loop() {
 * [photorealistic_wiring_power_signal_flow.png](file:///c:/Project/IoT/images/photorealistic_wiring_power_signal_flow.png) — แผนผังเส้นทางไฟและสัญญาณเสมือนจริงของทั้งระบบ
 * [system_block_diagram_simple.png](file:///c:/Project/IoT/images/system_block_diagram_simple.png) — แผนผังบล็อกระบบฉบับเข้าใจง่าย
 * [PCB_HARDWARE_DESIGN_SPEC.md](file:///c:/Project/IoT/PCB_HARDWARE_DESIGN_SPEC.md) — ข้อกำหนดการออกแบบทางวิศวกรรม PCB ฉบับสมบูรณ์ (Rev 2.2)
+
+
+---
+
+## 13. การแบ่งบทบาทหน้าที่และความรับผิดชอบของสมาชิกกลุ่ม 4 คน (4-Member Team Responsibility Breakdown)
+
+เพื่อความเป็นธรรมในการทำงานและการตรวจประเมินผลตามเกณฑ์รายวิชา การทำงานจึงถูกจัดสรรออกเป็น 4 บทบาทหลักตาม Work Breakdown Structure (WBS) ทางวิศวกรรม โดยกระจายทั้งภาระงานสร้างชิ้นงานจริง (Hands-on Engineering) และงานเอกสาร (Documentation) อย่างเท่าเทียม:
+
+### 13.1 รายละเอียดการแบ่งงานรายบุคคล (Role & Responsibilities)
+
+| ลำดับ / สมาชิก | บทบาทความรับผิดชอบหลัก (Engineering Role) | ภาระงานปฏิบัติจริง (Hands-on Engineering Tasks) | ส่วนงานเอกสารที่รับผิดชอบโดยตรง (Documentation Ownership) | หลักฐานงานที่ทำ (Work Deliverables & Artifacts) |
+| :--- | :--- | :--- | :--- | :--- |
+| **คนที่ 1:<br>ชัชวาล ตาจา<br>(หัวหน้ากลุ่ม)** | **System Architect & Requirements Lead**<br>(สถาปัตยกรรมระบบและข้อกำหนดทางวิศวกรรม) | • วิเคราะห์ System Boundary (In-Scope, Out-of-Scope, Dependency)<br>• กำหนด Engineering Requirements 6 ข้อ (REQ-01 ถึง REQ-06)<br>• ออกแบบ System Block Diagram (Power, Signals, Protection, TP1-TP4)<br>• กำหนด Pinout Interface 6 พิน Zero-Crossing และแนวทางสถาปัตยกรรม | • เขียนเนื้อหาใบงานที่ 2 ตอนที่ 1 (Use Case & Boundary)<br>• เขียนเนื้อหาใบงานที่ 2 ตอนที่ 2 (Engineering Requirements ทั้ง 6 ข้อ)<br>• จัดทำตาราง RTM (Requirements Traceability Matrix)<br>• ตรวจสอบความสอดคล้องของ Requirement กับผลงานทั้งระบบ | • ใบงานที่ 2 ตอนที่ 1 และ 2 ฉบับสมบูรณ์<br>• แผนผัง System Block Diagram (Rev v2.2)<br>• ตาราง Engineering Requirements & Interface Matrix |
+| **คนที่ 2:<br>[สมาชิกคนที่ 2]** | **Hardware Schematic & PCB Design Engineer**<br>(วิศวกรออกแบบวงจรและแผ่นพิมพ์วงจร) | • วาดวงจร Schematic ละเอียด (SP3485E, TVS SM712, PTC, Termination, Status LEDs)<br>• ออกแบบ PCB Layout แบบ Single-Layer 100% Zero-Crossing ไร้เส้นทับกัน<br>• ตรวจสอบ Design Rule Check (DRC: Clearance ≥ 0.3mm, Trace Width 0.8mm/0.4mm)<br>• Export ไฟล์ Gerber และไฟล์ภาพแปลนสำหรับกัดแผ่นปริ้นท์ในห้องแล็บ | • จัดทำตาราง Bill of Materials (BOM) พร้อมระบุ Footprint และ Part Number<br>• บันทึกสเปกฮาร์ดแวร์ PCB และมิติทางกายภาพ<br>• แคปภาพวงจร Schematic และภาพลายทองแดง PCB Blueprint ลงเอกสาร | • ไฟล์วงจร Schematic & PCB CAD (EasyEDA / KiCad)<br>• ไฟล์ Gerber / ไฟล์ภาพลายวงจรสำหรับกัดปริ้นท์<br>• ตารางรายการอุปกรณ์ BOM และสเปก PCB (Rev v2.2) |
+| **คนที่ 3:<br>[สมาชิกคนที่ 3]** | **Embedded Firmware & Modbus Protocol Engineer**<br>(วิศวกรเฟิร์มแวร์และโปรโตคอลการสื่อสาร) | • พัฒนาโค้ด C++/Arduino บน ESP32 เพื่อทำหน้าที่เป็น Modbus RTU Master<br>• กำหนดค่า Hardware Serial2 (TX: GPIO17, RX: GPIO16) 9,600 bps 8N1<br>• เขียนฟังก์ชันคุมขา DE/RE (GPIO04) สลับ Half-Duplex (Timing Delay < 2 ms)<br>• พัฒนาอัลกอริทึม CRC-16 Checksum และฟังก์ชันอ่านค่า Temp/Humid (FC 0x04) | • วาดผังงานการทำงานของโปรแกรม (Firmware Flowchart)<br>• ทำเอกสารอธิบายโครงสร้าง Modbus RTU Packet Format (Request/Response)<br>• รวบรวมซอร์สโค้ดและเขียนคอมเมนต์อธิบายลงในภาคผนวกรายงาน | • ซอร์สโค้ดเฟิร์มแวร์ ESP32 Modbus Master (.ino / .cpp)<br>• ข้อมูลดิบ Hex Packet (Tx Request & Rx Response)<br>• ภาพหน้าจอผลลัพธ์บน Serial Monitor |
+| **คนที่ 4:<br>[สมาชิกคนที่ 4]** | **Hardware Assembly, System QA Testing & Documentation Specialist**<br>(ผู้เชี่ยวชาญการประกอบ ทดสอบ และจัดรูปเล่ม) | • บัดกรีและประกอบอุปกรณ์ SMD/THT ลงแผ่นปริ้นท์จริงในห้องแล็บ<br>• ตรวจสอบความถูกต้องทางกายภาพและวัด Short Circuit ระหว่าง VCC-GND ก่อนเปิดไฟ<br>• ดำเนินการทดสอบระบบจริงตาม Test Cases (TC-MOD-01, 02, TC-IF-01, TC-SAFE-01)<br>• ใช้ Multimeter, Oscilloscope หรือ Logic Analyzer วัดสัญญาณ Differential A/B | • บันทึกตารางผลการทดสอบ (Test Results Table) พร้อมบันทึก Pass/Fail<br>• ถ่ายภาพและจัดเรียงรูปถ่ายชิ้นงานจริง และรูปคลื่นสัญญาณจากเครื่องมือวัด<br>• รับหน้าที่เป็น **Lead Technical Editor** รวมไฟล์ จัดหน้ากระดาษ ตรวจทานคำผิดในเล่มรายงาน | • ตารางบันทึกผลการทดสอบตามกรณีทดสอบ RTM<br>• รูปถ่ายชิ้นงานจริงที่ประกอบเสร็จสมบูรณ์<br>• ภาพถ่ายรูปคลื่นสัญญาณ Oscilloscope<br>• เอกสารรายงานโครงงานฉบับสมบูรณ์ (Final Report docx/pdf) |
+
+### 13.2 แผนภูมิการส่งงานรายสัปดาห์ (Weekly Deliverables Matrix)
+
+* **สัปดาห์ที่ 2 (Requirement & System Architecture):**
+  * *คนที่ 1 (Lead):* วิเคราะห์ Use Case, ขอบเขต และร่าง Requirement ทั้ง 6 ข้อ
+  * *คนที่ 2 (HW):* หา Datasheet และตรวจสอบขนาดตัวถังอุปกรณ์ SMD สำหรับทำ BOM เบื้องต้น
+  * *คนที่ 3 (FW):* ศึกษาคำสั่ง Modbus RTU และเตรียมไลบรารี/ตัวอย่างโค้ด ESP32 Serial2
+  * *คนที่ 4 (QA):* รวบรวมข้อมูลลงแบบฟอร์มใบงานที่ 2 และจัดเตรียมโครงร่างเอกสาร
+* **สัปดาห์ที่ 3 (PCB Hardware Design & BOM):**
+  * *คนที่ 1 (Lead):* ตรวจสอบความถูกต้องของ Pinout และ Zero-Crossing Rule ร่วมกับคนที่ 2
+  * *คนที่ 2 (HW):* วาด Schematic, ทำ PCB Layout Single-Layer, ตรวจ DRC และ Export ลายวงจร
+  * *คนที่ 3 (FW):* เขียนโค้ด Modbus RTU Master ตัวเต็ม พร้อมระบบคำนวณ CRC-16
+  * *คนที่ 4 (QA):* นำลายวงจรไปกัดแผ่นปริ้นท์ในแล็บ จัดเตรียมชิ้นส่วนตาม BOM และเริ่มบัดกรีอุปกรณ์
+* **สัปดาห์ที่ 4 (Hardware Assembly, Testing & Final Report):**
+  * *คนที่ 1 (Lead):* ประสานงานการทดสอบ Interface บอร์ดร่วมกับเซนเซอร์ XY-MD02
+  * *คนที่ 2 (HW):* แก้ไขจุดบัดกรี/ลายวงจร (หากพบจุดผิดพลาดหรือต้องใส่ลวดจัมเปอร์แก้)
+  * *คนที่ 3 (FW):* ทดสอบรันเฟิร์มแวร์จริง ดักจับแพ็กเก็ตข้อมูลและปรับจูน Timing การสลับขา DE
+  * *คนที่ 4 (QA):* วัดสัญญาณด้วย Oscilloscope บันทึกผลแล็บทั้งหมดลงตาราง และจัดรูปเล่มรายงานฉบับสมบูรณ์ส่งอาจารย์

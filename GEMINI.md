@@ -78,3 +78,12 @@ c:\Project\IoT\
 * `2: A+`  ➔ **สายสีเหลือง (A+)**: สัญญาณ RS-485 Data+ ผ่านฟิวส์ F1 และ TVS SM712
 * `3: B-`  ➔ **สายสีเขียว หรือ ขาว (B-)**: สัญญาณ RS-485 Data- ผ่านฟิวส์ F2 และ TVS SM712
 * `4: GND` ➔ **สายสีดำ (GND)**: กราวด์อ้างอิงเซนเซอร์ ต่อตรงเข้า Bottom Ground Bus
+
+
+---
+
+## 5. Team Structure & Work Breakdown (4-Member Division)
+* **Member 1 (ชัชวาล ตาจา - Lead):** System Architect & Requirements Lead (System Boundary, REQ-01 ถึง 06, System Block Diagram, Interface Matrix, Document Lead)
+* **Member 2:** Hardware Schematic & PCB Design Engineer (Schematic CAD, BOM & Footprint 0805/SOIC, Single-Layer PCB Layout Zero-Crossing, DRC & Gerber)
+* **Member 3:** Embedded Firmware & Modbus Protocol Engineer (ESP32 Serial2, GPIO04 DE/RE Half-Duplex, CRC-16 Checksum, Modbus FC 0x04 Temp/Humid Decode, Flowchart)
+* **Member 4:** Hardware Assembly, System QA Testing & Documentation Specialist (PCB Soldering SMD/THT, Continuity & Short Check, Oscilloscope Waveform, Test Results Table, Final Document Assembly & Formatting)

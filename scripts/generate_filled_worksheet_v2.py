@@ -5,9 +5,10 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml import parse_xml
 from docx.oxml.ns import nsdecls
 
-src_path = r'c:\Project\IoT\docs\Chatchawan Taja - ใบงานที่ 2 Requirement และ System Block Diagram.docx'
-out_path = r'c:\Project\IoT\docs\Chatchawan Taja - ใบงานที่ 2 Requirement และ System Block Diagram (Revision v2.2).docx'
-img_path = r'c:\Project\IoT\images\system_block_diagram_simple.png'
+root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+src_path = os.path.join(root_dir, 'docs', 'Chatchawan Taja - ใบงานที่ 2 Requirement และ System Block Diagram.docx')
+out_path = os.path.join(root_dir, 'docs', 'Chatchawan Taja - ใบงานที่ 2 Requirement และ System Block Diagram (Revision v2.2).docx')
+img_path = os.path.join(root_dir, 'images', 'system_block_diagram_simple.png')
 
 doc = docx.Document(src_path)
 
@@ -21,7 +22,7 @@ def set_font(run, font_name='Angsana New', size_pt=14, bold=False, color=None):
     rFonts = parse_xml(f'<w:rFonts {nsdecls("w")} w:ascii="{font_name}" w:hAnsi="{font_name}" w:cs="{font_name}" w:eastAsia="{font_name}"/>')
     rPr.append(rFonts)
 
-def set_cell_text(cell, text, bold=False, size_pt=13, align=WD_ALIGN_PARAGRAPH.LEFT):
+def set_cell_text(cell, text, bold=False, size_pt=12, align=WD_ALIGN_PARAGRAPH.LEFT):
     cell.text = ''
     p = cell.paragraphs[0]
     p.alignment = align
@@ -37,10 +38,32 @@ set_cell_text(doc.tables[0].cell(1, 1), 'RS-485 Industrial Extension Module ส�
 set_cell_text(doc.tables[0].cell(1, 2), '31 ตุลาคม 2569')
 set_cell_text(doc.tables[0].cell(1, 3), 'Revision v2.2 (Final)', bold=True)
 
-# Table 1: Members & Roles
-set_cell_text(doc.tables[1].cell(1, 0), 'ชัชวาล ตาจา', bold=True)
-set_cell_text(doc.tables[1].cell(1, 1), 'System Architect / Hardware Interface & Requirement')
-set_cell_text(doc.tables[1].cell(1, 2), 'วิเคราะห์ System Boundary, จัดทำ Engineering Requirements, ผัง Block Diagram, Interface List, RTM และการออกแบบลายวงจร Zero-Crossing (Rev v2.2)')
+# Table 1: Members & Roles (4 Members Team Breakdown)
+# Member 1: System Architect & Requirements Lead (User)
+set_cell_text(doc.tables[1].cell(1, 0), 'ชัชวาล ตาจา (หัวหน้ากลุ่ม)', bold=True)
+set_cell_text(doc.tables[1].cell(1, 1), 'System Architect & Requirements Lead')
+set_cell_text(doc.tables[1].cell(1, 2), 'วิเคราะห์ System Boundary, จัดทำ Engineering Requirements (REQ-01 ถึง 06), ออกแบบ System Block Diagram (Rev v2.2), กำหนด Pinout Interface และควบคุมภาพรวมเอกสาร')
+
+# Member 2: Hardware Schematic & PCB Design Engineer
+set_cell_text(doc.tables[1].cell(2, 0), '[ชื่อ-สกุล สมาชิกคนที่ 2]', bold=True)
+set_cell_text(doc.tables[1].cell(2, 1), 'Hardware Schematic & PCB Design Engineer')
+set_cell_text(doc.tables[1].cell(2, 2), 'ออกแบบวงจร Schematic, จัดทำรายการอุปกรณ์ BOM, ออกแบบแผ่นวงจรพิมพ์ PCB Layout แบบ Single-Layer Zero-Crossing, ตรวจสอบกฎ DRC และ Export ไฟล์ลายวงจรสำหรับกัดปริ้นท์')
+
+# Member 3: Embedded Firmware & Modbus Protocol Engineer
+set_cell_text(doc.tables[1].cell(3, 0), '[ชื่อ-สกุล สมาชิกคนที่ 3]', bold=True)
+set_cell_text(doc.tables[1].cell(3, 1), 'Embedded Firmware & Modbus Protocol Engineer')
+set_cell_text(doc.tables[1].cell(3, 2), 'พัฒนาโปรแกรมบน ESP32 (Hardware Serial2), ฟังก์ชันควบคุมขา DE/RE สลับ Half-Duplex (< 2ms), อัลกอริทึม CRC-16 Checksum, ดึงค่า Temp/Humid (FC 0x04) และจัดทำ Flowchart')
+
+# Member 4: Hardware Assembly, System QA Testing & Documentation Specialist
+set_cell_text(doc.tables[1].cell(4, 0), '[ชื่อ-สกุล สมาชิกคนที่ 4]', bold=True)
+set_cell_text(doc.tables[1].cell(4, 1), 'Hardware Assembly, System QA Testing & Documentation Specialist')
+set_cell_text(doc.tables[1].cell(4, 2), 'บัดกรีประกอบอุปกรณ์ฮาร์ดแวร์ลงบอร์ดจริง, ทดสอบระบบตามเกณฑ์ RTM (TC-MOD, TC-IF, TC-SAFE), วัดรูปคลื่นสัญญาณด้วย Oscilloscope และรวบรวมจัดรูปเล่มรายงานส่งอาจารย์')
+
+# Remove empty row 5 if present so it reflects a 4-person group
+if len(doc.tables[1].rows) > 5:
+    tbl = doc.tables[1]._tbl
+    tr = doc.tables[1].rows[5]._tr
+    tbl.remove(tr)
 
 # ตอนที่ 1: วิเคราะห์ Use Case และ System Boundary
 doc.paragraphs[15].text = 'ผู้ใช้เป้าหมายคือนักพัฒนาอุปกรณ์ IoT วิศวกร และผู้ดูแลระบบสมาร์ทฟาร์มหรือโรงงานอุตสาหกรรมที่ใช้งานบอร์ด THARIT-IoT เพื่อตรวจวัดสภาพแวดล้อม ปัญหาที่พบคือพอร์ตสื่อสารของบอร์ดหลักมีเฉพาะระดับแรงดันตรรกะ UART 3.3V ซึ่งไม่สามารถลากสายสัญญาณระยะไกล และไม่สามารถเชื่อมต่อกับเซนเซอร์วัดอุณหภูมิและความชื้นเกรดอุตสาหกรรมรุ่น XY-MD02 (SHT20) ที่สื่อสารด้วยโปรโตคอล Modbus RTU ผ่านมาตรฐาน RS-485 ได้โดยตรง จึงจำเป็นต้องมีโมดูลขยาย (Extension Module) ทำหน้าที่แปลงสัญญาณ Differential และมีระบบป้องกันสัญญาณรบกวนทางไฟฟ้าเพื่อให้รับส่งข้อมูลระยะไกลได้อย่างแม่นยำและเสถียร'
@@ -161,5 +184,4 @@ for i, p in enumerate(doc.paragraphs):
         doc.paragraphs[i+2].text = ''
 
 doc.save(out_path)
-print('Successfully generated filled docx at target path.')
-
+print('Successfully generated filled docx with 4-member roles at target path.')
